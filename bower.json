@@ -1,0 +1,25 @@
+{
+  "name": "webaudioplayer",
+  "version": "0.0.0",
+  "homepage": "https://github.com/notthetup/webaudioplayer",
+  "authors": [
+    "Chinmay Pendharkar <notthetup@gmail.com>"
+  ],
+  "description": "An easy to use Audio Player using WebAudio",
+  "main": "webaudioplayer.js",
+  "keywords": [
+    "webaudio",
+    "player",
+    "audio",
+    "play",
+    "sound"
+  ],
+  "license": "MIT",
+  "ignore": [
+    "**/.*",
+    "node_modules",
+    "bower_components",
+    "test",
+    "tests"
+  ]
+}
