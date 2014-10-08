@@ -62,9 +62,9 @@
 		Object.defineProperty( this, 'volume', {
 			enumerable: true,
 			configurable: false,
-			set: function ( newSpeed ) {
-				this._volume = newSpeed;
-				this._releaseGainNode.gain.value = this._volume;
+			set: function ( newVolume ) {
+				this._volume = newVolume;
+				this._releaseGainNode.gain.setValueAtTime( this._volume, this.audioContext.currentTime );
 			},
 			get: function () {
 				return this._releaseGainNode.gain.value;
@@ -105,7 +105,7 @@
 
 		function wrapAroundOnEndCallback( index ) {
 			return function () {
-				console.log( "Ended: ", index );
+				//console.log( "Ended: ", index );
 				self._sourceNodes.forEach( function ( sourceObj, elIndex ) {
 					if ( sourceObj.index === index ) {
 						self._sourceNodes.splice( elIndex, 1 );
@@ -115,7 +115,7 @@
 		}
 
 		this._releaseGainNode.gain.cancelScheduledValues( when );
-		this._releaseGainNode.gain.setValueAtTime( this.volume, when );
+		this._releaseGainNode.gain.setValueAtTime( this._volume, when );
 
 		newSourceNode.connect( this._releaseGainNode );
 		if ( duration === undefined ) {
@@ -145,7 +145,7 @@
 		var RELEASE_PAD = 1 / this.audioContext.sampleRate;
 
 		this._releaseGainNode.gain.cancelScheduledValues( when );
-		this._releaseGainNode.gain.setValueAtTime( this.volume, when );
+		this._releaseGainNode.gain.setValueAtTime( this._volume, when );
 		this._releaseGainNode.gain.linearRampToValueAtTime( 0, when + RELEASE_TIME );
 		this.stop( when + RELEASE_TIME + RELEASE_PAD );
 	};
