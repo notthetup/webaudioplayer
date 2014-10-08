@@ -6,7 +6,7 @@
     "Chinmay Pendharkar <notthetup@gmail.com>"
   ],
   "description": "An easy to use Audio Player using WebAudio",
-  "main": "webaudioplayer.js",
+  "main": "dist/webaudioplayer.js",
   "keywords": [
     "webaudio",
     "player",
