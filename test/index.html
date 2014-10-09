@@ -1,38 +1,83 @@
 <!DOCTYPE html>
 <html>
-	<head>
-		<meta charset="utf-8">
-		<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+<head>
+	<meta charset="utf-8">
+	<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
 
-		<title>WebAudioPlayer Test</title>
-		<style type="text/css" media="screen">
-			.model {
-						position: relative;
-						display: block;
-						padding: 10px 15px;
-						margin-bottom: -1px;
-						background-color: #ffffff;
-						border: 1px solid #dddddd;
-						color: #555555;
-						font-family: Georgia, "Times New Roman", Times, serif;
-						font-size: 18px;
-						line-height: 1.42857143;
-						width: 300px;
-					}
-		</style>
+	<title>WebAudioPlayer Test</title>
+	<style type="text/css" media="screen">
+		.model {
+			position: relative;
+			display: block;
+			padding: 10px 15px;
+			margin-bottom: -1px;
+			background-color: #ffffff;
+			border: 1px solid #dddddd;
+			color: #555555;
+			font-family: Georgia, "Times New Roman", Times, serif;
+			font-size: 18px;
+			line-height: 1.42857143;
+			width: 300px;
+		}
+	</style>
 
-		<script src="webaudioplayer.js"></script>
+	<script src="webaudioplayer.js"></script>
 
-		<script type="text/javascript">
+	<script type="text/javascript">
 		window.addEventListener("load", function(){
 			console.log("hello world");
+
+			var startBtn = document.querySelector("#start");
+			var stopBtn = document.querySelector("#stop");
+			var releaseBtn = document.querySelector("#release");
+
+			var speedSlider = document.querySelector("#speedslider");
+			var speedValue = document.querySelector("#speedvalue");
+
+			var volSlider = document.querySelector("#volumeslider");
+			var volValue = document.querySelector("#volumevalue");
+
+			var w = new WebAudioPlayer();
+			w.loop = true;
+			w.onLoadComplete = function(){
+				console.log("Finished loading");
+				startBtn.disabled = false;
+				startBtn.addEventListener('click', function(){
+					stopBtn.disabled = false;
+					releaseBtn.disabled = false;
+					w.start();
+					stopBtn.addEventListener('click', function(){
+						w.stop();
+					});
+					releaseBtn.addEventListener('click', function(){
+						w.release();
+					});
+				});
+			};
+
+			speedSlider.addEventListener('input', function(){
+				speedValue.innerHTML = parseFloat(speedSlider.value);
+				w.speed = parseFloat(speedSlider.value);
+			});
+			volSlider.addEventListener('input', function(){
+				volValue.innerHTML = parseFloat(volSlider.value);
+				w.volume = parseFloat(volSlider.value);
+			});
+
+			w.source = "https://dl.dropboxusercontent.com/u/77191118/sounds/gettysburg_address.mp3";
 		});
-		</script>
+	</script>
 
 	<body>
+		<input disabled="true" type="submit" id="start" value="Start" />
+		<input disabled="true" type="submit" id="stop" value="Stop" />
+		<input disabled="true" type="submit" id="release" value="Release" />
+		<br>
+		<input id="speedslider" type="range" min="0" max="10" value="1" step="0.1" >
+		<output id="speedvalue">1</output>
+		<br>
+		<input id="volumeslider" type="range" min="0" max="1" value="0.5" step="0.01" >
+		<output id="volumevalue">0.5</output>
 
 	</body>
-
-	</body>
-
-</html>
+	</html>
